@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/andybega/wstates.svg?branch=master)](https://travis-ci.com/andybega/wstates)
 <!-- badges: end -->
 
 The goal of wcshapes is to make spatial lagging with country-year but
