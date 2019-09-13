@@ -24,7 +24,7 @@ w_dist_power <- function(x, alpha = 1) {
   # apply power transform
   w <- dist_mat %>%
     unclass() %>%
-    `^`(., -alpha) %>%
+    `^`(-alpha) %>%
     `diag<-`(0)
 
   # row-normalize
