@@ -20,4 +20,5 @@ Spatial weights matrix for independent states on a date
 w <- wstates("2010-01-01")
 w
 plot(w)
+
 }

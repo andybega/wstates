@@ -27,11 +27,11 @@ print.wmat <- function(x, ...) {
 
 
 plot.wmat <- function(x, ...) {
-  geom <- st_geometry(attr(x, "geometry"))
+  geom <- sf::st_geometry(attr(x, "geometry"))
   centroids <- sf::st_centroid(geom)
   net <- network::network(x, directed = FALSE)
   plot(geom)
-  plot(net, coord = st_coordinates(centroids), new = FALSE, vertex.cex = .5)
+  plot(net, coord = sf::st_coordinates(centroids), new = FALSE, vertex.cex = .5)
   invisible(x)
 }
 

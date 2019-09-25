@@ -11,6 +11,8 @@
 #' w <- wstates("2010-01-01")
 #' w
 #' plot(w)
+#'
+#' @export
 wstates <- function(date, w_func = NULL, ccode = NULL) {
 
   states <- states_geom(date, ccode)
@@ -29,18 +31,18 @@ wstates <- function(date, w_func = NULL, ccode = NULL) {
 #' @param w_func foo
 #'
 #' @export
-spatlag <- function(x, ccode, date, w_func, ...) {
+spatlag <- function(x, ccode, date, w_func) {
 
   date <- unique(date)
   date <- "2012-01-01"
 
   geom <- states_geom(date, ccode)
 
-  spatlag_geom(x, sf::st_geometry(geom), w_func, ...)
+  spatlag_geom(x, sf::st_geometry(geom), w_func)
 
 }
 
-spatlag_geom <- function(x, geom, w_func, ...) {
+spatlag_geom <- function(x, geom, w_func) {
 
   w <- w_contiguity(geom)
 

@@ -23,7 +23,9 @@ Imports:
     magrittr,
     spdep,
     sf,
-    units
+    units,
+    network,
+    states
 Suggests: 
     testthat (>= 2.1.0),
     covr

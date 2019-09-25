@@ -1,7 +1,7 @@
 
 library("states")
 states <- state_panel(2012, 2012)
-states <- dplyr::filter(states, !gwcode %in% c(396, 397))
+states <- subset(states, !states$gwcode %in% c(396, 397))
 states$x <- as.integer(states$gwcode %in% c(2, 260, 490))
 
 test_that("spatlag works and returns correct values", {
