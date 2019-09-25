@@ -17,9 +17,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/andybega/wstates.svg?branch=master)](https://travis-ci.com/andybega/wstates)
+[![Codecov test coverage](https://codecov.io/gh/andybega/wstates/branch/master/graph/badge.svg)](https://codecov.io/gh/andybega/wstates?branch=master)
 <!-- badges: end -->
 
 The goal of wcshapes is to make spatial lagging with country-year but also other panel data easier. 
+
+**NOTE: EVEN MINIMAL CORE FUNCTIONALITY IS IN PLACE YET; NOT READY FOR USE**
 
 ## Installation
 

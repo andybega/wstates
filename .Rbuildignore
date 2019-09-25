@@ -5,3 +5,4 @@
 ^data-raw$
 ^devel$
 ^\.travis\.yml$
+^codecov\.yml$
