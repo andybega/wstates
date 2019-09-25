@@ -1,0 +1,98 @@
+
+#' Spatial weights matrix
+#'
+#' Spatial weights matrix class / constructor
+#'
+#' @param w foo
+#' @param geom foo
+#'
+#' @examples
+#' data("est_adm1")
+#' w <- w_contiguity(sf::st_geometry(est_adm1))
+#' w
+#' plot(w)
+#'
+#' @export
+wmat <- function(w, geom) {
+  attr(w, "geometry") <- geom
+  class(w) <- "wmat"
+  w
+}
+
+
+print.wmat <- function(x, ...) {
+  cat(sprintf("Spatial weights matrix [%s x %s]", ncol(x), ncol(x)), fill = TRUE)
+  invisible(x)
+}
+
+
+plot.wmat <- function(x, ...) {
+  geom <- st_geometry(attr(x, "geometry"))
+  centroids <- sf::st_centroid(geom)
+  net <- network::network(x, directed = FALSE)
+  plot(geom)
+  plot(net, coord = st_coordinates(centroids), new = FALSE, vertex.cex = .5)
+  invisible(x)
+}
+
+
+
+
+#' Contiguity W
+#'
+#' Contiguity spatial weights matrix
+#'
+#' @param x inheriting from "sfc"
+#'
+#' @examples
+#' data("est_adm1")
+#' w <- w_contiguity(sf::st_geometry(est_adm1))
+#'
+#' @export
+w_contiguity <- function(x) {
+  stopifnot(inherits(x, "sfc"))
+  geom <- x
+  w <- spdep::poly2nb(geom, queen = FALSE)
+  w <- spdep::nb2mat(w, style = "W", zero.policy = TRUE)
+  wmat(w, geom)
+}
+
+
+
+
+
+w_dist <- function(x) {
+  x %>%
+    sf::st_centroid() %>%
+    sf::st_distance() %>%
+    units::set_units("km")
+}
+
+#' Inverse distance weight
+#'
+#' Power distance weights.
+#'
+#' @param x a geometry collection
+#' @param alpha exponent for distance weights
+#'
+#' @examples
+#' data("est_adm1")
+#' w <- w_dist_power(sf::st_geometry(est_adm1), alpha = 1)
+#'
+#' @export
+w_dist_power <- function(x, alpha = 1) {
+  dist_mat <- w_dist(x)
+
+  # apply power transform
+  w <- dist_mat %>%
+    unclass() %>%
+    `^`(-alpha) %>%
+    `diag<-`(0)
+
+  # row-normalize
+  w <- apply(w, 1, function(x) {
+    x * 1 / sum(x)
+  }) %>% t()
+
+  w
+}

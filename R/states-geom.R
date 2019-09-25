@@ -1,0 +1,33 @@
+
+#' State borders
+#'
+#' Get correct set of state borders for a date
+#'
+#' @param date A Date or YYYY-MM-DD string
+#' @param ccode Vector of numeric G&W country codes to subset the result by
+#'
+#' @examples
+#' x <- states_geom()
+#' x
+#'
+#' @export
+states_geom <- function(date, ccode = NULL) {
+  date <- as.Date(date, origin = "1970-01-01")
+  geom <- read_cshapes(date)
+  if (!is.null(ccode)) {
+    geom <- geom[match(ccode, geom$GWCODE), ]
+  }
+  geom
+}
+
+#' Cshapes reader
+#'
+#' To avoid warnings, and convert to sf object
+#'
+#' @keywords internal
+read_cshapes <- function(date) {
+  stopifnot(inherits(date, "Date"))
+  geom <- suppressWarnings(cshapes::cshp(date))
+  geom <- sf::st_as_sf(geom)
+  geom
+}

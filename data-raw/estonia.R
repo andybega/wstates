@@ -9,7 +9,8 @@ adm1 <- raster::getData("GADM", country = "EST", level = 1, path = "data-raw") %
   dplyr::filter(TYPE_1!="Water body") %>%
   st_transform(3301) %>%
   # from 9.5 Mb to 0.3 Mb, 97% reduction
-  st_simplify(dTolerance = 100, preserveTopology = FALSE)
+  st_simplify(dTolerance = 100, preserveTopology = FALSE) %>%
+  st_set_geometry(., st_cast(st_geometry(.), "MULTIPOLYGON"))
 
 est_adm1 <- adm1
 usethis::use_data(est_adm1, overwrite = TRUE)
