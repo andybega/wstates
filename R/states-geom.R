@@ -7,7 +7,7 @@
 #' @param ccode Vector of numeric G&W country codes to subset the result by
 #'
 #' @examples
-#' x <- states_geom()
+#' x <- states_geom("2010-01-01")
 #' x
 #'
 #' @export

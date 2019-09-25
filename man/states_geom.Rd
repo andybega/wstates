@@ -15,7 +15,7 @@ states_geom(date, ccode = NULL)
 Get correct set of state borders for a date
 }
 \examples{
-x <- states_geom()
+x <- states_geom("2010-01-01")
 x
 
 }
