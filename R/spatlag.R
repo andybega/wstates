@@ -33,20 +33,33 @@ wstates <- function(date, w_func = NULL, ccode = NULL) {
 #' @export
 spatlag <- function(x, ccode, date, w_func) {
 
-  date <- unique(date)
-  date <- "2012-01-01"
+  stopifnot(inherits(date, "Date"),
+            !any(is.na(x)),
+            !any(is.na(ccode)),
+            !any(is.na(date)))
 
-  geom <- states_geom(date, ccode)
+  x_i     <- split(x, date)
+  ccode_i <- split(ccode, date)
+  dates   <- as.character(unique(date))
 
-  spatlag_geom(x, sf::st_geometry(geom), w_func)
+  slag_x  <- lapply(dates, function(date_i) {
 
+    x_ii     <- x_i[[date_i]]
+    ccode_ii <- ccode_i[[date_i]]
+
+    geom <- states_geom(as.Date(date_i), ccode_ii)
+    geom <- sf::st_geometry(geom)
+    w <- w_contiguity(geom)
+
+    slag_x_ii <- w %*% x_ii
+    as.vector(slag_x_ii)
+  })
+  names(slag_x) <- dates
+
+  slag_x <- unsplit(slag_x, date)
+  slag_x
 }
 
-spatlag_geom <- function(x, geom, w_func) {
 
-  w <- w_contiguity(geom)
 
-  slag_x <- w %*% x
-  as.vector(slag_x)
 
-}
