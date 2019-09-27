@@ -50,8 +50,8 @@ data("est_adm1")
 
 est_adm1$x <- as.integer(est_adm1$NAME_1 == "Harju")
 w0 <- w_dist_power(st_geometry(est_adm1), alpha = .5)
-w1 <- w_dist_power(st_geometry(est_adm1), alpha = 1)
-w2 <- w_dist_power(st_geometry(est_adm1), alpha = 2)
+w1 <- w_dist_power(st_geometry(est_adm1), alpha = 2)
+w2 <- w_contiguity(st_geometry(est_adm1))
 est_adm1$x_sl0 <- as.numeric(w0 %*% est_adm1$x)
 est_adm1$x_sl1 <- as.numeric(w1 %*% est_adm1$x)
 est_adm1$x_sl2 <- as.numeric(w2 %*% est_adm1$x)
@@ -61,4 +61,29 @@ plot(est_adm1[, c("x", "x_sl0", "x_sl1", "x_sl2")])
 
 
 
+```{r}
+library("states")
+
+# Get W matrix for certain date
+w <- wstates("2010-01-01")
+w
+plot(w)
+```
+
+```{r}
+states <- state_panel(as.Date("2011-12-31"), as.Date("2012-12-31"), partial = "exact")
+states <- subset(states, !states$gwcode %in% c(396, 397))
+states$x <- as.integer(
+  (states$gwcode %in% c(2, 260, 490) & states$date=="2011-12-31") |
+  (states$gwcode %in% c(2) & states$date=="2012-12-31"))
+
+# spatial lag x
+states$slag_x <- spatlag(states$x, states$gwcode, states$date)
+head(states$slag_x)
+
+# or, equivalently
+states <- states %>%
+  dplyr::mutate(slag_x = spatlag(x, gwcode, date))
+dplyr::filter(states, slag_x > 0)
+```
 

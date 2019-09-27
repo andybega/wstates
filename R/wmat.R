@@ -19,13 +19,13 @@ wmat <- function(w, geom) {
   w
 }
 
-
+#' @export
 print.wmat <- function(x, ...) {
   cat(sprintf("Spatial weights matrix [%s x %s]", ncol(x), ncol(x)), fill = TRUE)
   invisible(x)
 }
 
-
+#' @export
 plot.wmat <- function(x, ...) {
   geom <- sf::st_geometry(attr(x, "geometry"))
   centroids <- sf::st_centroid(geom)
