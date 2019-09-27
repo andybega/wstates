@@ -13,10 +13,10 @@
 #' plot(w)
 #'
 #' @export
-wstates <- function(date, w_func = NULL, ccode = NULL) {
+wstates <- function(date, w_func = w_contiguity, ccode = NULL) {
 
   states <- states_geom(date, ccode)
-  w <- w_contiguity(sf::st_geometry(states))
+  w <- w_func(sf::st_geometry(states))
   w
 }
 
@@ -31,7 +31,7 @@ wstates <- function(date, w_func = NULL, ccode = NULL) {
 #' @param w_func foo
 #'
 #' @export
-spatlag <- function(x, ccode, date, w_func) {
+spatlag <- function(x, ccode, date, w_func = w_contiguity) {
 
   stopifnot(inherits(date, "Date"),
             !any(is.na(x)),
@@ -49,7 +49,7 @@ spatlag <- function(x, ccode, date, w_func) {
 
     geom <- states_geom(as.Date(date_i), ccode_ii)
     geom <- sf::st_geometry(geom)
-    w <- w_contiguity(geom)
+    w <- w_func(geom)
 
     slag_x_ii <- w %*% x_ii
     as.vector(slag_x_ii)

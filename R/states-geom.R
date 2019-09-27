@@ -12,9 +12,21 @@
 #'
 #' @export
 states_geom <- function(date, ccode = NULL) {
+  stopifnot(length(date)==1,
+            all(!duplicated(ccode)))
+
   date <- as.Date(date, origin = "1970-01-01")
   geom <- read_cshapes(date)
+
   if (!is.null(ccode)) {
+
+    # make sure all input ccode's match a statelist ccode
+    nomatch <- ccode[!ccode %in% geom$GWCODE]
+    if (length(nomatch) > 0) {
+      stop(sprintf("One or more input country codes are invalid: %s",
+                   paste0(nomatch, collapse = ", ")))
+    }
+
     geom <- geom[match(ccode, geom$GWCODE), ]
   }
   geom

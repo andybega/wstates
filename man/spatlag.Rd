@@ -4,7 +4,7 @@
 \alias{spatlag}
 \title{Spatial lagger}
 \usage{
-spatlag(x, ccode, date, w_func)
+spatlag(x, ccode, date, w_func = w_contiguity)
 }
 \arguments{
 \item{x}{variable to lag}

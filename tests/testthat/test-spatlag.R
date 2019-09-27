@@ -9,7 +9,7 @@ states$x <- as.integer(
 test_that("spatlag works and returns correct values", {
 
   expect_error(
-    states$slag_x <- spatlag(states$x, states$gwcode, states$date, NULL),
+    states$slag_x <- spatlag(states$x, states$gwcode, states$date),
     NA
   )
 
@@ -32,25 +32,42 @@ test_that("spatlag errors for missing values in any input vector", {
 
   year <- as.integer(substr(states$date, 1, 4))
   expect_error(
-    spatlag(states$x, states$gwcode, states$year, NULL)
+    spatlag(states$x, states$gwcode, states$year)
   )
 
   x <- states$x
   x[1] <- NA
   expect_error(
-    spatlag(x, states$gwcode, states$date, NULL)
+    spatlag(x, states$gwcode, states$date)
   )
 
   ccode <- states$gwcode
   ccode[1] <- NA
   expect_error(
-    spatlag(states$x, ccode, states$date, NULL)
+    spatlag(states$x, ccode, states$date)
   )
 
   date <- states$date
   date[1] <- NA
   expect_error(
-    spatlag(states$x, states$gwcode, date, NULL)
+    spatlag(states$x, states$gwcode, date)
   )
 
 })
+
+
+test_that("w matrices are subset by country code list", {
+
+  data("gwstates")
+  gwcode <- states$gwcode
+  gwcode <- gwcode[!gwcode %in% gwstates[gwstates$microstate, "gwcode"]]
+
+  states2 <- states[states$gwcode %in% gwcode, ]
+
+  expect_error(
+    out <- spatlag(states2$x, states2$gwcode, states2$date),
+    NA
+  )
+
+})
+

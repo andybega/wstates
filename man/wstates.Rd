@@ -4,7 +4,7 @@
 \alias{wstates}
 \title{State W}
 \usage{
-wstates(date, w_func = NULL, ccode = NULL)
+wstates(date, w_func = w_contiguity, ccode = NULL)
 }
 \arguments{
 \item{date}{A Date or YYYY-MM-DD string}
