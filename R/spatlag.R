@@ -12,11 +12,20 @@
 #' w
 #' plot(w)
 #'
+#' # state capitals are by default used for the vertices when plotting
+#' # reset to null to default to centroids
+#' attr(w, "coords") <- NULL
+#'
 #' @export
 wstates <- function(date, w_func = w_contiguity, ccode = NULL) {
 
   states <- states_geom(date, ccode)
+  coords <- states[, c("CAPLONG", "CAPLAT")]
+  coords <- sf::st_drop_geometry(coords)
+  coords <- sf::st_as_sf(coords, coords = c("CAPLONG", "CAPLAT"), crs = 4326)
+  coords <- sf::st_geometry(coords)
   w <- w_func(sf::st_geometry(states))
+  w <- set_coords(w, coords)
   w
 }
 

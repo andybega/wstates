@@ -3,8 +3,10 @@
 #'
 #' Spatial weights matrix class / constructor
 #'
-#' @param w foo
-#' @param geom foo
+#' @param w a matrix
+#' @param geom geometry from which the matrix was constructed. Used for plotting.
+#' @param coords Alternative coordinates to use when plotting, otherwise
+#'   will default to centroids.
 #'
 #' @examples
 #' data("est_adm1")
@@ -12,12 +14,47 @@
 #' w
 #' plot(w)
 #'
+#' # the vertices default to centroid coordinates; this can be changed by
+#' # setting alternative coordinates
+#' coords <- st_as_sf(as.data.frame(est_adm1), coords = c("caplong", "caplat"),
+#'                    remove = TRUE, crs = 4326)
+#' coords <- st_geometry(coords)
+#' w <- set_coords(w, coords)
+#' plot(w)
+#'
 #' @export
-wmat <- function(w, geom) {
+wmat <- function(w, geom, coords = NULL) {
   attr(w, "geometry") <- geom
+  if (!is.null(coords)) {
+    w <- set_coords(w, coords)
+  }
   class(w) <- "wmat"
   w
 }
+
+#' Set coordinates for weights matrix
+#'
+#' Set coordinates that are used to plot vertices for the weights matrix.
+#'
+#' @param x a [wmat()] object
+#' @param coords an object inheriting from "sfc_POINT", see [sf::st_sfc()] and
+#'   [sf::st_point()].
+#'
+#' @details The weights matrices returned by [w_contiguity()] etc. return a
+#'   [wmat()] object without the optional "coords" argument that is used to
+#'   plot the vertices. `set_vertices` allows setting these after the fact,
+#'   and is used for example internally in [wstates()] to set the coords to
+#'   the state capital coordinates.
+#'
+#' @export
+set_coords <- function(x, coords) {
+  stopifnot(inherits(x, "wmat"),
+            inherits(coords, "sfc_POINT"))
+  coords <- sf::st_transform(coords, crs = sf::st_crs(attr(x, "geometry")))
+  attr(x, "coords") <- coords
+  x
+}
+
 
 #' @export
 print.wmat <- function(x, ...) {
@@ -28,10 +65,15 @@ print.wmat <- function(x, ...) {
 #' @export
 plot.wmat <- function(x, ...) {
   geom <- sf::st_geometry(attr(x, "geometry"))
-  centroids <- sf::st_centroid(geom)
+  if (!is.null(attr(x, "coords"))) {
+    vertices <- attr(x, "coords")
+  } else {
+    vertices <- sf::st_centroid(geom)
+  }
+
   net <- network::network(x, directed = FALSE)
   plot(geom)
-  plot(net, coord = sf::st_coordinates(centroids), new = FALSE, vertex.cex = .5)
+  plot(net, coord = sf::st_coordinates(vertices), new = FALSE, vertex.cex = .5)
   invisible(x)
 }
 

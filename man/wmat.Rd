@@ -4,12 +4,17 @@
 \alias{wmat}
 \title{Spatial weights matrix}
 \usage{
-wmat(w, geom)
+wmat(w, geom, type = NULL, coords = NULL)
 }
 \arguments{
-\item{w}{foo}
+\item{w}{a matrix}
 
-\item{geom}{foo}
+\item{geom}{geometry from which the matrix was constructed. Used for plotting.}
+
+\item{type}{String describing the weights matrix type}
+
+\item{coords}{Alternative coordinates to use when plotting, otherwise
+will default to centroids.}
 }
 \description{
 Spatial weights matrix class / constructor
@@ -18,6 +23,14 @@ Spatial weights matrix class / constructor
 data("est_adm1")
 w <- w_contiguity(sf::st_geometry(est_adm1))
 w
+plot(w)
+
+# the vertices default to centroid coordinates; this can be changed by
+# setting alternative coordinates
+coords <- st_as_sf(as.data.frame(est_adm1), coords = c("caplong", "caplat"),
+                   remove = TRUE, crs = 4326)
+coords <- st_geometry(coords)
+w <- set_coords(w, coords)
 plot(w)
 
 }
