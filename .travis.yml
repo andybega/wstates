@@ -11,6 +11,7 @@ before_install:
   - sudo apt-get -y install libudunits2-dev libgdal-dev libgeos-dev libproj-dev
 
 after_success:
+  - Rscript -e 'devtools::install()'
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'pkgdown::build_site()'
 
