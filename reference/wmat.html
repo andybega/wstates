@@ -18,13 +18,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -50,6 +52,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -66,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wstates</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9003</span>
       </span>
     </div>
 
@@ -74,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,6 +94,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -105,68 +109,44 @@
     <p>Spatial weights matrix class / constructor</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wmat</span>(<span class='no'>w</span>, <span class='no'>geom</span>)</pre>
+    <pre class="usage"><span class='fu'>wmat</span>(<span class='no'>w</span>, <span class='no'>geom</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coords</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>w</th>
-      <td><p>foo</p></td>
+      <td><p>a matrix</p></td>
     </tr>
     <tr>
       <th>geom</th>
-      <td><p>foo</p></td>
+      <td><p>geometry from which the matrix was constructed. Used for plotting.</p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>String describing the weights matrix type</p></td>
+    </tr>
+    <tr>
+      <th>coords</th>
+      <td><p>Alternative coordinates to use when plotting, otherwise
+will default to centroids.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"est_adm1"</span>)
-<span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='w_contiguity.html'>w_contiguity</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>est_adm1</span>))
-<span class='no'>w</span></div><div class='output co'>#&gt;         [,1] [,2] [,3] [,4]      [,5] [,6]      [,7]      [,8] [,9]     [,10]
-#&gt; 1  0.0000000    0 0.00 0.25 0.0000000 0.25 0.2500000 0.0000000 0.00 0.2500000
-#&gt; 2  0.0000000    0 0.00 0.00 0.0000000 0.00 0.0000000 0.0000000 0.00 0.0000000
-#&gt; 3  0.0000000    0 0.00 0.00 0.5000000 0.00 0.5000000 0.0000000 0.00 0.0000000
-#&gt; 4  0.1666667    0 0.00 0.00 0.1666667 0.00 0.1666667 0.1666667 0.00 0.1666667
-#&gt; 5  0.0000000    0 0.20 0.20 0.0000000 0.00 0.2000000 0.0000000 0.00 0.0000000
-#&gt; 6  0.3333333    0 0.00 0.00 0.0000000 0.00 0.0000000 0.3333333 0.00 0.3333333
-#&gt; 7  0.2500000    0 0.25 0.25 0.2500000 0.00 0.0000000 0.0000000 0.00 0.0000000
-#&gt; 8  0.0000000    0 0.00 0.25 0.0000000 0.25 0.0000000 0.0000000 0.00 0.2500000
-#&gt; 9  0.0000000    0 0.00 0.00 0.0000000 0.00 0.0000000 0.0000000 0.00 0.0000000
-#&gt; 10 0.2500000    0 0.00 0.25 0.0000000 0.25 0.0000000 0.2500000 0.00 0.0000000
-#&gt; 11 0.0000000    0 0.00 0.00 0.0000000 0.00 0.0000000 0.0000000 0.00 0.0000000
-#&gt; 12 0.0000000    0 0.00 0.00 0.2500000 0.00 0.0000000 0.0000000 0.25 0.0000000
-#&gt; 13 0.0000000    0 0.00 0.00 0.0000000 0.00 0.0000000 0.0000000 0.25 0.0000000
-#&gt; 14 0.0000000    0 0.00 0.20 0.2000000 0.00 0.0000000 0.2000000 0.00 0.0000000
-#&gt; 15 0.0000000    0 0.00 0.00 0.0000000 0.00 0.0000000 0.0000000 0.50 0.0000000
-#&gt;    [,11]     [,12]     [,13]     [,14]     [,15]
-#&gt; 1      0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 2      0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 3      0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 4      0 0.0000000 0.0000000 0.1666667 0.0000000
-#&gt; 5      0 0.2000000 0.0000000 0.2000000 0.0000000
-#&gt; 6      0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 7      0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 8      0 0.0000000 0.0000000 0.2500000 0.0000000
-#&gt; 9      0 0.3333333 0.3333333 0.0000000 0.3333333
-#&gt; 10     0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 11     0 0.0000000 0.0000000 0.0000000 0.0000000
-#&gt; 12     0 0.0000000 0.2500000 0.2500000 0.0000000
-#&gt; 13     0 0.2500000 0.0000000 0.2500000 0.2500000
-#&gt; 14     0 0.2000000 0.2000000 0.0000000 0.0000000
-#&gt; 15     0 0.0000000 0.5000000 0.0000000 0.0000000
-#&gt; attr(,"call")
-#&gt; spdep::nb2mat(neighbours = w, style = "W", zero.policy = TRUE)
-#&gt; attr(,"geometry")
-#&gt; Geometry set for 15 features 
-#&gt; geometry type:  MULTIPOLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: 369047.8 ymin: 6377520 xmax: 739151.5 ymax: 6634019
-#&gt; epsg (SRID):    3301
-#&gt; proj4string:    +proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
-#&gt; First 5 geometries:</div><div class='output co'>#&gt; <span class='message'>MULTIPOLYGON (((541907.8 6591003, 541793.4 6591...</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOLYGON (((452884.2 6512722, 452891.2 6512...</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOLYGON (((714586.2 6547578, 714563.1 6547...</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOLYGON (((593433.6 6501933, 593265.6 6501...</span></div><div class='output co'>#&gt; <span class='message'>MULTIPOLYGON (((674219.6 6518838, 674212.5 6518...</span></div><div class='output co'>#&gt; attr(,"class")
-#&gt; [1] "wmat"</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>w</span>)</div><div class='img'><img src='wmat-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"sf"</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"est_adm1"</span>)
+<span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='w_contiguity.html'>w_contiguity</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry.html'>st_geometry</a></span>(<span class='no'>est_adm1</span>))
+<span class='no'>w</span></div><div class='output co'>#&gt; Spatial weights matrix [15 x 15]
+#&gt; Type: Contiguity (rook)</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='no'>w</span>)</div><div class='img'><img src='wmat-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># the vertices default to centroid coordinates; this can be changed by</span>
+<span class='co'># setting alternative coordinates</span>
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_as_sf.html'>st_as_sf</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>est_adm1</span>), <span class='kw'>coords</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"caplong"</span>, <span class='st'>"caplat"</span>),
+                   <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>)
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry.html'>st_geometry</a></span>(<span class='no'>coords</span>)
+<span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='set_coords.html'>set_coords</a></span>(<span class='no'>w</span>, <span class='no'>coords</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='no'>w</span>)</div><div class='img'><img src='wmat-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -179,19 +159,23 @@
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Andreas Beger.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

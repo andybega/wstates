@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>State borders — states_geom • wstates</title>
+<title>Set coordinates for weights matrix — set_coords • wstates</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="State borders — states_geom" />
-<meta property="og:description" content="Get correct set of state borders for a date" />
+<meta property="og:title" content="Set coordinates for weights matrix — set_coords" />
+<meta property="og:description" content="Set coordinates that are used to plot vertices for the weights matrix." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,91 +100,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>State borders</h1>
+    <h1>Set coordinates for weights matrix</h1>
     
-    <div class="hidden name"><code>states_geom.Rd</code></div>
+    <div class="hidden name"><code>set_coords.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get correct set of state borders for a date</p>
+    <p>Set coordinates that are used to plot vertices for the weights matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>states_geom</span>(<span class='no'>date</span>, <span class='kw'>ccode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>set_coords</span>(<span class='no'>x</span>, <span class='no'>coords</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>date</th>
-      <td><p>A Date or YYYY-MM-DD string</p></td>
+      <th>x</th>
+      <td><p>a [wmat()] object</p></td>
     </tr>
     <tr>
-      <th>ccode</th>
-      <td><p>Vector of numeric G&amp;W country codes to subset the result by</p></td>
+      <th>coords</th>
+      <td><p>an object inheriting from "sfc_POINT", see [sf::st_sfc()] and
+[sf::st_point()].</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>states_geom</span>(<span class='st'>"2010-01-01"</span>)
-<span class='no'>x</span></div><div class='output co'>#&gt; Simple feature collection with 194 features and 24 fields
-#&gt; geometry type:  MULTIPOLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -180 ymin: -55.90223 xmax: 180 ymax: 83.11387
-#&gt; epsg (SRID):    4326
-#&gt; proj4string:    +proj=longlat +ellps=WGS84 +no_defs
-#&gt; First 10 features:
-#&gt;            CNTRY_NAME         AREA       CAPNAME CAPLONG     CAPLAT FEATUREID
-#&gt; 0              Guyana  211982.0050    Georgetown   -58.2   6.800000         0
-#&gt; 1            Suriname  145952.2740    Paramaribo   -55.2   5.833333         1
-#&gt; 2 Trinidad and Tobago    5041.7290 Port-of-Spain   -61.5  10.650000         2
-#&gt; 3           Venezuela  916782.2172       Caracas   -66.9  10.500000         3
-#&gt; 4               Samoa    2955.2124          Apia  -172.0 -13.800000         4
-#&gt; 5               Tonga     464.7473    Nuku'alofa  -175.0 -21.100000         5
-#&gt; 6           Argentina 2787442.0977  Buenos Aires   -58.7 -34.600000         6
-#&gt; 7             Bolivia 1092697.4356        La Paz   -68.2 -16.500000         7
-#&gt; 8              Brazil 8523619.5715      Brasilia   -47.9 -15.800000         8
-#&gt; 9               Chile  745808.4936      Santiago   -70.7 -33.500000         9
-#&gt;   COWCODE COWSYEAR COWSMONTH COWSDAY COWEYEAR COWEMONTH COWEDAY GWCODE GWSYEAR
-#&gt; 0     110     1966         5      26     2016         6      30    110    1966
-#&gt; 1     115     1975        11      25     2016         6      30    115    1975
-#&gt; 2      52     1962         8      31     2016         6      30     52    1962
-#&gt; 3     101     1946         1       1     2016         6      30    101    1946
-#&gt; 4     990     1976        12      15     2016         6      30    990    1962
-#&gt; 5     955     1999         9      14     2016         6      30    972    1970
-#&gt; 6     160     1946         1       1     2016         6      30    160    1946
-#&gt; 7     145     1946         1       1     2016         6      30    145    1946
-#&gt; 8     140     1960         4      21     2016         6      30    140    1960
-#&gt; 9     155     1946         1       1     2016         6      30    155    1946
-#&gt;   GWSMONTH GWSDAY GWEYEAR GWEMONTH GWEDAY             ISONAME ISO1NUM ISO1AL2
-#&gt; 0        5     26    2016        6     30              Guyana     328      GY
-#&gt; 1       11     25    2016        6     30            Suriname     740      SR
-#&gt; 2        8     31    2016        6     30 Trinidad and Tobago     780      TT
-#&gt; 3        1      1    2016        6     30           Venezuela     862      VE
-#&gt; 4        1      1    2016        6     30               Samoa     882      WS
-#&gt; 5        6      4    2016        6     30               Tonga     776      TO
-#&gt; 6        1      1    2016        6     30           Argentina      32      AR
-#&gt; 7        1      1    2016        6     30             Bolivia      68      BO
-#&gt; 8        4     21    2016        6     30              Brazil      76      BR
-#&gt; 9        1      1    2016        6     30               Chile     152      CL
-#&gt;   ISO1AL3                       geometry
-#&gt; 0     GUY MULTIPOLYGON (((-58.17262 6...
-#&gt; 1     SUR MULTIPOLYGON (((-55.12796 5...
-#&gt; 2     TTO MULTIPOLYGON (((-61.07945 1...
-#&gt; 3     VEN MULTIPOLYGON (((-66.31029 1...
-#&gt; 4     WSM MULTIPOLYGON (((-172.5965 -...
-#&gt; 5     TON MULTIPOLYGON (((-175.1453 -...
-#&gt; 6     ARG MULTIPOLYGON (((-71.85916 -...
-#&gt; 7     BOL MULTIPOLYGON (((-62.19884 -...
-#&gt; 8     BRA MULTIPOLYGON (((-44.69501 -...
-#&gt; 9     CHL MULTIPOLYGON (((-73.0421 -4...</div><div class='input'>
-</div></pre>
+    <p>The weights matrices returned by [w_contiguity()] etc. return a
+  [wmat()] object without the optional "coords" argument that is used to
+  plot the vertices. `set_vertices` allows setting these after the fact,
+  and is used for example internally in [wstates()] to set the coords to
+  the state capital coordinates.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
