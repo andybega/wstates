@@ -20,6 +20,8 @@ will default to centroids.}
 Spatial weights matrix class / constructor
 }
 \examples{
+library("sf")
+
 data("est_adm1")
 w <- w_contiguity(sf::st_geometry(est_adm1))
 w

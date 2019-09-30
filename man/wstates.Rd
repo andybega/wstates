@@ -21,4 +21,8 @@ w <- wstates("2010-01-01")
 w
 plot(w)
 
+# state capitals are by default used for the vertices when plotting
+# reset to null to default to centroids
+attr(w, "coords") <- NULL
+
 }

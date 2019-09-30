@@ -5,10 +5,13 @@
 #'
 #' @param w a matrix
 #' @param geom geometry from which the matrix was constructed. Used for plotting.
+#' @param type String describing the weights matrix type
 #' @param coords Alternative coordinates to use when plotting, otherwise
 #'   will default to centroids.
 #'
 #' @examples
+#' library("sf")
+#'
 #' data("est_adm1")
 #' w <- w_contiguity(sf::st_geometry(est_adm1))
 #' w
@@ -23,10 +26,13 @@
 #' plot(w)
 #'
 #' @export
-wmat <- function(w, geom, coords = NULL) {
+wmat <- function(w, geom, type = NULL, coords = NULL) {
   attr(w, "geometry") <- geom
   if (!is.null(coords)) {
     w <- set_coords(w, coords)
+  }
+  if (!is.null(type)) {
+    attr(w, "type") <- type
   }
   class(w) <- "wmat"
   w
@@ -59,6 +65,9 @@ set_coords <- function(x, coords) {
 #' @export
 print.wmat <- function(x, ...) {
   cat(sprintf("Spatial weights matrix [%s x %s]", ncol(x), ncol(x)), fill = TRUE)
+  if (!is.null(attr(x, "type"))) {
+    cat(sprintf("Type: %s", attr(x, "type")))
+  }
   invisible(x)
 }
 
@@ -96,7 +105,7 @@ w_contiguity <- function(x) {
   geom <- x
   w <- spdep::poly2nb(geom, queen = FALSE)
   w <- spdep::nb2mat(w, style = "W", zero.policy = TRUE)
-  wmat(w, geom)
+  wmat(w, geom, type = "Contiguity (rook)")
 }
 
 
@@ -136,5 +145,6 @@ w_dist_power <- function(x, alpha = 1) {
     x * 1 / sum(x)
   }) %>% t()
 
-  w
+  type_str <- sprintf("Inverse distance (alpha = %s)", alpha)
+  wmat(w = w, geom = x, type = type_str)
 }
