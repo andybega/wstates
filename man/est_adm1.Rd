@@ -6,7 +6,7 @@
 \title{Estonia county borders}
 \format{An object of class \code{sf} (inherits from \code{data.frame}) with 15 rows and 11 columns.}
 \source{
-GADM ([https://gadm.org]) for shape data and Google Maps for city
+GADM (<https://gadm.org>) for shape data and Google Maps for city
   coordinates.
 }
 \usage{
@@ -14,5 +14,12 @@ est_adm1
 }
 \description{
 Estonia ADM1 data from GADM
+}
+\examples{
+library("sf")
+data("est_adm1")
+head(est_adm1)
+plot(est_adm1[, 3])
+
 }
 \keyword{datasets}

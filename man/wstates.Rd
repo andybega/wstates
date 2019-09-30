@@ -24,5 +24,6 @@ plot(w)
 # state capitals are by default used for the vertices when plotting
 # reset to null to default to centroids
 attr(w, "coords") <- NULL
+plot(w)
 
 }

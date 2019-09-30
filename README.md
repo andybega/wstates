@@ -14,24 +14,28 @@ coverage](https://codecov.io/gh/andybega/wstates/branch/master/graph/badge.svg)]
 The goal of wcshapes is to make spatial lagging with country-year but
 also other panel data easier.
 
-**NOTE: EVEN MINIMAL CORE FUNCTIONALITY IS IN PLACE YET; NOT READY FOR
-USE**
+**Note: this is still in very early stages. Use with caution.**
 
 ## Installation
+
+To install the latest version from GitHub:
 
 ``` r
 library("remotes")
 install_github("andybega/wstates")
 ```
 
-NOPE NOT YET:
+The package is not on CRAN.
 
-You can install the released version of wstates from
-[CRAN](https://CRAN.R-project.org) with:
+<!--
+
+You can install the released version of wstates from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("wstates")
 ```
+
+-->
 
 ## Example
 
@@ -63,9 +67,8 @@ library("states")
 w <- wstates("2010-01-01")
 w
 #> Spatial weights matrix [194 x 194]
+#> Type: Contiguity (rook)
 plot(w)
-#> Warning in st_centroid.sfc(geom): st_centroid does not give correct
-#> centroids for longitude/latitude data
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />

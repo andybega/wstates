@@ -15,6 +15,7 @@
 #' # state capitals are by default used for the vertices when plotting
 #' # reset to null to default to centroids
 #' attr(w, "coords") <- NULL
+#' plot(w)
 #'
 #' @export
 wstates <- function(date, w_func = w_contiguity, ccode = NULL) {

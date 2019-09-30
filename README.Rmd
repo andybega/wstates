@@ -22,22 +22,28 @@ knitr::opts_chunk$set(
 
 The goal of wcshapes is to make spatial lagging with country-year but also other panel data easier. 
 
-**NOTE: EVEN MINIMAL CORE FUNCTIONALITY IS IN PLACE YET; NOT READY FOR USE**
+**Note: this is still in very early stages. Use with caution.**
 
 ## Installation
+
+To install the latest version from GitHub:
 
 ``` r
 library("remotes")
 install_github("andybega/wstates")
 ```
 
-NOPE NOT YET: 
+The package is not on CRAN.
+
+<!--
 
 You can install the released version of wstates from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("wstates")
 ```
+
+-->
 
 ## Example
 
