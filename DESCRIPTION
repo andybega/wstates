@@ -1,6 +1,6 @@
 Package: wstates
 Title: Spatial Lagging for Country-Year Data
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: 
     person(given = "Andreas",
            family = "Beger",
@@ -12,6 +12,8 @@ Description: wstates makes it easy to spatial lag variables in country-year
   weights matrices for spatial lagging are also non-constant. wstates automates
   the process of finding the correct one at any given time. Companian package 
   for the states package.
+URL: https://github.com/andybega/wstates, https://www.andybeger.com/wstates
+BugReports: https://github.com/andybega/wstates/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
