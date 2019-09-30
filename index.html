@@ -69,84 +69,91 @@
 <!-- badges: start -->
 
 <p>The goal of wcshapes is to make spatial lagging with country-year but also other panel data easier.</p>
-<p><strong>NOTE: EVEN MINIMAL CORE FUNCTIONALITY IS IN PLACE YET; NOT READY FOR USE</strong></p>
+<p><strong>Note: this is still in very early stages. Use with caution.</strong></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<p>To install the latest version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"remotes"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"andybega/wstates"</span>)</a></code></pre></div>
-<p>NOPE NOT YET:</p>
-<p>You can install the released version of wstates from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wstates"</span>)</a></code></pre></div>
+<p>The package is not on CRAN.</p>
+<!--
+
+You can install the released version of wstates from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("wstates")
+```
+
+-->
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wstates"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sf"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"est_adm1"</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">est_adm1<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(est_adm1<span class="op">$</span>NAME_<span class="dv">1</span> <span class="op">==</span><span class="st"> "Harju"</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">w0 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_dist_power.html">w_dist_power</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1), <span class="dt">alpha =</span> <span class="fl">.5</span>)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">w1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_dist_power.html">w_dist_power</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1), <span class="dt">alpha =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">w2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_contiguity.html">w_contiguity</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1))</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">est_adm1<span class="op">$</span>x_sl0 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w0 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">est_adm1<span class="op">$</span>x_sl1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w1 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">est_adm1<span class="op">$</span>x_sl2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w2 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(est_adm1[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>, <span class="st">"x_sl0"</span>, <span class="st">"x_sl1"</span>, <span class="st">"x_sl2"</span>)])</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"wstates"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sf"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"est_adm1"</span>)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">est_adm1<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(est_adm1<span class="op">$</span>NAME_<span class="dv">1</span> <span class="op">==</span><span class="st"> "Harju"</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">w0 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_dist_power.html">w_dist_power</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1), <span class="dt">alpha =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">w1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_dist_power.html">w_dist_power</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1), <span class="dt">alpha =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">w2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/w_contiguity.html">w_contiguity</a></span>(<span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(est_adm1))</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">est_adm1<span class="op">$</span>x_sl0 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w0 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">est_adm1<span class="op">$</span>x_sl1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w1 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">est_adm1<span class="op">$</span>x_sl2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(w2 <span class="op">%*%</span><span class="st"> </span>est_adm1<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(est_adm1[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>, <span class="st">"x_sl0"</span>, <span class="st">"x_sl1"</span>, <span class="st">"x_sl2"</span>)])</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"states"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Get W matrix for certain date</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">w &lt;-<span class="st"> </span><span class="kw"><a href="reference/wstates.html">wstates</a></span>(<span class="st">"2010-01-01"</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">w</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Spatial weights matrix [194 x 194]</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(w)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; Warning in st_centroid.sfc(geom): st_centroid does not give correct</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; centroids for longitude/latitude data</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"states"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Get W matrix for certain date</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">w &lt;-<span class="st"> </span><span class="kw"><a href="reference/wstates.html">wstates</a></span>(<span class="st">"2010-01-01"</span>)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">w</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Spatial weights matrix [194 x 194]</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Type: Contiguity (rook)</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(w)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">states &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/states/man/state_panel.html">state_panel</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2011-12-31"</span>), <span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2012-12-31"</span>), <span class="dt">partial =</span> <span class="st">"exact"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">states &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(states, <span class="op">!</span>states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">396</span>, <span class="dv">397</span>))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">states<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  (states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">260</span>, <span class="dv">490</span>) <span class="op">&amp;</span><span class="st"> </span>states<span class="op">$</span>date<span class="op">==</span><span class="st">"2011-12-31"</span>) <span class="op">|</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span>(states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>) <span class="op">&amp;</span><span class="st"> </span>states<span class="op">$</span>date<span class="op">==</span><span class="st">"2012-12-31"</span>))</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># spatial lag x</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">states<span class="op">$</span>slag_x &lt;-<span class="st"> </span><span class="kw"><a href="reference/spatlag.html">spatlag</a></span>(states<span class="op">$</span>x, states<span class="op">$</span>gwcode, states<span class="op">$</span>date)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(states<span class="op">$</span>slag_x)</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [1] 0 0 1 1 0 0</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co"># or, equivalently</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">states &lt;-<span class="st"> </span>states <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">slag_x =</span> <span class="kw"><a href="reference/spatlag.html">spatlag</a></span>(x, gwcode, date))</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(states, slag_x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;    gwcode       date x    slag_x</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 1      20 2011-12-31 0 1.0000000</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 2      20 2012-12-31 0 1.0000000</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 3      70 2011-12-31 0 0.3333333</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 4      70 2012-12-31 0 0.3333333</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 5     210 2011-12-31 0 0.5000000</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; 6     211 2011-12-31 0 0.2500000</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 7     212 2011-12-31 0 0.3333333</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 8     220 2011-12-31 0 0.1250000</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 9     225 2011-12-31 0 0.2000000</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 10    290 2011-12-31 0 0.1428571</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 11    305 2011-12-31 0 0.1250000</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 12    316 2011-12-31 0 0.2500000</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 13    390 2011-12-31 0 1.0000000</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 14    482 2011-12-31 0 0.1666667</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; 15    484 2011-12-31 0 0.2000000</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 16    500 2011-12-31 0 0.2000000</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; 17    510 2011-12-31 0 0.1250000</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; 18    516 2011-12-31 0 0.3333333</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; 19    517 2011-12-31 0 0.2500000</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; 20    540 2011-12-31 0 0.2500000</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; 21    551 2011-12-31 0 0.1428571</span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; 22    626 2011-12-31 0 0.1666667</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">states &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/states/man/state_panel.html">state_panel</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2011-12-31"</span>), <span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2012-12-31"</span>), <span class="dt">partial =</span> <span class="st">"exact"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">states &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(states, <span class="op">!</span>states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">396</span>, <span class="dv">397</span>))</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">states<span class="op">$</span>x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  (states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">260</span>, <span class="dv">490</span>) <span class="op">&amp;</span><span class="st"> </span>states<span class="op">$</span>date<span class="op">==</span><span class="st">"2011-12-31"</span>) <span class="op">|</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">  </span>(states<span class="op">$</span>gwcode <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>) <span class="op">&amp;</span><span class="st"> </span>states<span class="op">$</span>date<span class="op">==</span><span class="st">"2012-12-31"</span>))</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># spatial lag x</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">states<span class="op">$</span>slag_x &lt;-<span class="st"> </span><span class="kw"><a href="reference/spatlag.html">spatlag</a></span>(states<span class="op">$</span>x, states<span class="op">$</span>gwcode, states<span class="op">$</span>date)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(states<span class="op">$</span>slag_x)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; [1] 0 0 1 1 0 0</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># or, equivalently</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">states &lt;-<span class="st"> </span>states <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">slag_x =</span> <span class="kw"><a href="reference/spatlag.html">spatlag</a></span>(x, gwcode, date))</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(states, slag_x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;    gwcode       date x    slag_x</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 1      20 2011-12-31 0 1.0000000</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 2      20 2012-12-31 0 1.0000000</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 3      70 2011-12-31 0 0.3333333</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 4      70 2012-12-31 0 0.3333333</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 5     210 2011-12-31 0 0.5000000</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 6     211 2011-12-31 0 0.2500000</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 7     212 2011-12-31 0 0.3333333</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 8     220 2011-12-31 0 0.1250000</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; 9     225 2011-12-31 0 0.2000000</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; 10    290 2011-12-31 0 0.1428571</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; 11    305 2011-12-31 0 0.1250000</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; 12    316 2011-12-31 0 0.2500000</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; 13    390 2011-12-31 0 1.0000000</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; 14    482 2011-12-31 0 0.1666667</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; 15    484 2011-12-31 0 0.2000000</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; 16    500 2011-12-31 0 0.2000000</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; 17    510 2011-12-31 0 0.1250000</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; 18    516 2011-12-31 0 0.3333333</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; 19    517 2011-12-31 0 0.2500000</span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; 20    540 2011-12-31 0 0.2500000</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; 21    551 2011-12-31 0 0.1428571</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; 22    626 2011-12-31 0 0.1666667</span></a></code></pre></div>
 </div>
 </div>
   </div>

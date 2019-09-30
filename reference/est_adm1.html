@@ -117,15 +117,39 @@
     <p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 15 rows and 11 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>GADM ([https://gadm.org]) for shape data and Google Maps for city
+    <p>GADM (&lt;https://gadm.org&gt;) for shape data and Google Maps for city
   coordinates.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"sf"</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.1, GDAL 2.2.2, PROJ 4.9.2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"est_adm1"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>est_adm1</span>)</div><div class='output co'>#&gt; Simple feature collection with 6 features and 10 fields
+#&gt; geometry type:  MULTIPOLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 387050.1 ymin: 6483179 xmax: 739151.5 ymax: 6617848
+#&gt; epsg (SRID):    3301
+#&gt; proj4string:    +proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs
+#&gt;   GID_0  NAME_0   GID_1   NAME_1  TYPE_1 ENGTYPE_1 HASC_1     city caplong
+#&gt; 1   EST Estonia EST.1_1    Harju Maakond    County  EE.HA  Tallinn   24.75
+#&gt; 2   EST Estonia EST.2_1     Hiiu Maakond    County  EE.HI   Kärdla   22.74
+#&gt; 3   EST Estonia EST.3_1 Ida-Viru Maakond    County  EE.IV    Jõhvi   27.40
+#&gt; 4   EST Estonia EST.4_1    Järva Maakond    County  EE.JR    Paide   25.54
+#&gt; 5   EST Estonia EST.5_1   Jõgeva Maakond    County  EE.JN   Jõgeva   26.39
+#&gt; 6   EST Estonia EST.7_1    Lääne Maakond    County  EE.LN Haapsalu   23.54
+#&gt;   caplat                       geometry
+#&gt; 1  59.44 MULTIPOLYGON (((541907.8 65...
+#&gt; 2  59.00 MULTIPOLYGON (((452884.2 65...
+#&gt; 3  59.35 MULTIPOLYGON (((714586.2 65...
+#&gt; 4  58.89 MULTIPOLYGON (((593433.6 65...
+#&gt; 5  58.74 MULTIPOLYGON (((674219.6 65...
+#&gt; 6  58.94 MULTIPOLYGON (((466598.3 65...</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='no'>est_adm1</span>[, <span class='fl'>3</span>])</div><div class='img'><img src='est_adm1-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#format">Format</a></li>
       <li><a href="#source">Source</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

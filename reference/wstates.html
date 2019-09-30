@@ -135,7 +135,9 @@
 #&gt; Type: Contiguity (rook)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>w</span>)</div><div class='img'><img src='wstates-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># state capitals are by default used for the vertices when plotting</span>
 <span class='co'># reset to null to default to centroids</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>w</span>, <span class='st'>"coords"</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>w</span>, <span class='st'>"coords"</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>w</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='img'><img src='wstates-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
