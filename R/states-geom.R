@@ -36,7 +36,9 @@ states_geom <- function(date, ccode = NULL) {
 #'
 #' To avoid warnings, and convert to sf object
 #'
-#' @keywords internal
+#' @param date A Date value
+#'
+#' @export
 read_cshapes <- function(date) {
   stopifnot(inherits(date, "Date"))
   geom <- suppressWarnings(cshapes::cshp(date))

@@ -98,6 +98,8 @@ plot.wmat <- function(x, ...) {
 #' @examples
 #' data("est_adm1")
 #' w <- w_contiguity(sf::st_geometry(est_adm1))
+#' w
+#' plot(w)
 #'
 #' @export
 w_contiguity <- function(x) {
@@ -129,16 +131,17 @@ w_dist <- function(x) {
 #' @examples
 #' data("est_adm1")
 #' w <- w_dist_power(sf::st_geometry(est_adm1), alpha = 1)
+#' w
+#' plot(w)
 #'
 #' @export
 w_dist_power <- function(x, alpha = 1) {
   dist_mat <- w_dist(x)
 
   # apply power transform
-  w <- dist_mat %>%
-    unclass() %>%
-    `^`(-alpha) %>%
-    `diag<-`(0)
+  w <- unclass(dist_mat)
+  w <- w^(-alpha)
+  diag(w) <- 0
 
   # row-normalize
   w <- apply(w, 1, function(x) {

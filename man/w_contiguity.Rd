@@ -15,5 +15,7 @@ Contiguity spatial weights matrix
 \examples{
 data("est_adm1")
 w <- w_contiguity(sf::st_geometry(est_adm1))
+w
+plot(w)
 
 }

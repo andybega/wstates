@@ -6,7 +6,9 @@
 \usage{
 read_cshapes(date)
 }
+\arguments{
+\item{date}{A Date value}
+}
 \description{
 To avoid warnings, and convert to sf object
 }
-\keyword{internal}

@@ -39,12 +39,79 @@ install.packages("wstates")
 
 ## Example
 
+The core function `spatlag()` spatially lags variables in a country-year
+dataset. It is self-aware of the Gleditsch and Ward statelist and will
+construct spatial weights matrices using the time-appropriate set of
+independent states using shapefiles from the
+[**cshapes**](https://cran.r-project.org/package=cshapes) package.
+
+First, let’s construct a panel dataset with a variable, `x`, that is 1
+for a limited number of country-years. **wstates** is setup to work in
+conjunction with the [**states**](https://github.com/andybega/states)
+package, which generates country-year data matching the G\&W statelist
+using `state_panel()`:
+
 ``` r
+library("states")
 library("wstates")
 library("sf")
 #> Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0
 library("ggplot2")
 
+states <- state_panel(as.Date("2011-12-31"), as.Date("2012-12-31"), partial = "exact")
+states <- subset(states, !states$gwcode %in% c(396, 397))
+states$x <- as.integer(
+  (states$gwcode %in% c(2, 260, 490) & states$date=="2011-12-31") |
+  (states$gwcode %in% c(2) & states$date=="2012-12-31"))
+```
+
+And here is how to spatially lag `x`:
+
+``` r
+# spatial lag x
+states$slag_x <- spatlag(states$x, states$gwcode, states$date)
+
+# or, equivalently
+states <- states %>%
+  dplyr::mutate(slag_x = spatlag(x, gwcode, date))
+```
+
+A visual check that the lagging was correct:
+
+``` r
+# Add geometry to country-year data
+states2011 <- states[states$date=="2011-12-31", ]
+geom2011   <- read_cshapes(as.Date("2011-12-31"))
+states2011 <- dplyr::left_join(states2011, geom2011, by = c("gwcode" = "GWCODE"))
+states2011 <- states2011 %>% st_set_geometry("geometry")
+
+plot(states2011[, c("x", "slag_x")])
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+### Country-year W matrices
+
+`wstates()` creates W matrices for the independent states at a given
+date. This is useful for visualizing the relationships.
+
+``` r
+# Get W matrix for certain date
+w <- wstates("2010-01-01")
+w
+#> Spatial weights matrix [194 x 194]
+#> Type: Contiguity (rook)
+plot(w)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+### Types of weights matrices
+
+I’ve been using (rook) contiguity for now during development, but the
+plan is to add more. Here’s one with power-weighted inverse distance:
+
+``` r
 data("est_adm1")
 
 est_adm1$x <- as.integer(est_adm1$NAME_1 == "Harju")
@@ -58,58 +125,4 @@ est_adm1$x_sl2 <- as.numeric(w2 %*% est_adm1$x)
 plot(est_adm1[, c("x", "x_sl0", "x_sl1", "x_sl2")])
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-
-``` r
-library("states")
-
-# Get W matrix for certain date
-w <- wstates("2010-01-01")
-w
-#> Spatial weights matrix [194 x 194]
-#> Type: Contiguity (rook)
-plot(w)
-```
-
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
-
-``` r
-states <- state_panel(as.Date("2011-12-31"), as.Date("2012-12-31"), partial = "exact")
-states <- subset(states, !states$gwcode %in% c(396, 397))
-states$x <- as.integer(
-  (states$gwcode %in% c(2, 260, 490) & states$date=="2011-12-31") |
-  (states$gwcode %in% c(2) & states$date=="2012-12-31"))
-
-# spatial lag x
-states$slag_x <- spatlag(states$x, states$gwcode, states$date)
-head(states$slag_x)
-#> [1] 0 0 1 1 0 0
-
-# or, equivalently
-states <- states %>%
-  dplyr::mutate(slag_x = spatlag(x, gwcode, date))
-dplyr::filter(states, slag_x > 0)
-#>    gwcode       date x    slag_x
-#> 1      20 2011-12-31 0 1.0000000
-#> 2      20 2012-12-31 0 1.0000000
-#> 3      70 2011-12-31 0 0.3333333
-#> 4      70 2012-12-31 0 0.3333333
-#> 5     210 2011-12-31 0 0.5000000
-#> 6     211 2011-12-31 0 0.2500000
-#> 7     212 2011-12-31 0 0.3333333
-#> 8     220 2011-12-31 0 0.1250000
-#> 9     225 2011-12-31 0 0.2000000
-#> 10    290 2011-12-31 0 0.1428571
-#> 11    305 2011-12-31 0 0.1250000
-#> 12    316 2011-12-31 0 0.2500000
-#> 13    390 2011-12-31 0 1.0000000
-#> 14    482 2011-12-31 0 0.1666667
-#> 15    484 2011-12-31 0 0.2000000
-#> 16    500 2011-12-31 0 0.2000000
-#> 17    510 2011-12-31 0 0.1250000
-#> 18    516 2011-12-31 0 0.3333333
-#> 19    517 2011-12-31 0 0.2500000
-#> 20    540 2011-12-31 0 0.2500000
-#> 21    551 2011-12-31 0 0.1428571
-#> 22    626 2011-12-31 0 0.1666667
-```
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />

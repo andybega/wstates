@@ -47,11 +47,62 @@ install.packages("wstates")
 
 ## Example
 
+The core function `spatlag()` spatially lags variables in a country-year dataset. It is self-aware of the Gleditsch and Ward statelist and will construct spatial weights matrices using the time-appropriate set of independent states using shapefiles from the [**cshapes**](https://cran.r-project.org/package=cshapes) package. 
+
+First, let's construct a panel dataset with a variable, `x`, that is 1 for a limited number of country-years. **wstates** is setup to work in conjunction with the [**states**](https://github.com/andybega/states) package, which generates country-year data matching the G&W statelist using `state_panel()`:
+
 ```{r}
+library("states")
 library("wstates")
 library("sf")
 library("ggplot2")
 
+states <- state_panel(as.Date("2011-12-31"), as.Date("2012-12-31"), partial = "exact")
+states <- subset(states, !states$gwcode %in% c(396, 397))
+states$x <- as.integer(
+  (states$gwcode %in% c(2, 260, 490) & states$date=="2011-12-31") |
+  (states$gwcode %in% c(2) & states$date=="2012-12-31"))
+```
+
+And here is how to spatially lag `x`:
+
+```{r}
+# spatial lag x
+states$slag_x <- spatlag(states$x, states$gwcode, states$date)
+
+# or, equivalently
+states <- states %>%
+  dplyr::mutate(slag_x = spatlag(x, gwcode, date))
+```
+
+A visual check that the lagging was correct:
+
+```{r}
+# Add geometry to country-year data
+states2011 <- states[states$date=="2011-12-31", ]
+geom2011   <- read_cshapes(as.Date("2011-12-31"))
+states2011 <- dplyr::left_join(states2011, geom2011, by = c("gwcode" = "GWCODE"))
+states2011 <- states2011 %>% st_set_geometry("geometry")
+
+plot(states2011[, c("x", "slag_x")])
+```
+
+### Country-year W matrices
+
+`wstates()` creates W matrices for the independent states at a given date. This is useful for visualizing the relationships. 
+
+```{r}
+# Get W matrix for certain date
+w <- wstates("2010-01-01")
+w
+plot(w)
+```
+
+### Types of weights matrices
+
+I've been using (rook) contiguity for now during development, but the plan is to add more. Here's one with power-weighted inverse distance:
+
+```{r}
 data("est_adm1")
 
 est_adm1$x <- as.integer(est_adm1$NAME_1 == "Harju")
@@ -66,30 +117,4 @@ plot(est_adm1[, c("x", "x_sl0", "x_sl1", "x_sl2")])
 ```
 
 
-
-```{r}
-library("states")
-
-# Get W matrix for certain date
-w <- wstates("2010-01-01")
-w
-plot(w)
-```
-
-```{r}
-states <- state_panel(as.Date("2011-12-31"), as.Date("2012-12-31"), partial = "exact")
-states <- subset(states, !states$gwcode %in% c(396, 397))
-states$x <- as.integer(
-  (states$gwcode %in% c(2, 260, 490) & states$date=="2011-12-31") |
-  (states$gwcode %in% c(2) & states$date=="2012-12-31"))
-
-# spatial lag x
-states$slag_x <- spatlag(states$x, states$gwcode, states$date)
-head(states$slag_x)
-
-# or, equivalently
-states <- states %>%
-  dplyr::mutate(slag_x = spatlag(x, gwcode, date))
-dplyr::filter(states, slag_x > 0)
-```
 

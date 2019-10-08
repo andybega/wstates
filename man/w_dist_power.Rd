@@ -17,5 +17,7 @@ Power distance weights.
 \examples{
 data("est_adm1")
 w <- w_dist_power(sf::st_geometry(est_adm1), alpha = 1)
+w
+plot(w)
 
 }

@@ -3,6 +3,7 @@
 S3method(plot,wmat)
 S3method(print,wmat)
 export("%>%")
+export(read_cshapes)
 export(set_coords)
 export(spatlag)
 export(states_geom)
